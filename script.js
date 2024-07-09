@@ -3,6 +3,8 @@ const startButton = document.getElementById('startButton');
 const scoreDisplay = document.getElementById('score');
 const boardSize = 400;
 const tileSize = 20;
+let scores = [];
+const maxScores = 10; // Maximum number of scores to display
 let snake = [{ x: tileSize * 2, y: 0 }];
 let direction = { x: 1, y: 0 };
 let food = { x: tileSize * 5, y: tileSize * 5 };
@@ -100,7 +102,26 @@ function endGame() {
     clearInterval(gameInterval);
     startButton.textContent = "Game Over";
     startButton.disabled = false;
+
+    // Add current score to scores array
+    scores.unshift(score);
+    if (scores.length > maxScores) {
+        scores.pop(); // Remove oldest score if array exceeds maxScores
+    }
+
+    updateScoreboard();
 }
+function updateScoreboard() {
+    const scoreList = document.getElementById('scoreList');
+    scoreList.innerHTML = ''; // Clear existing scores
+
+    scores.forEach((score, index) => {
+        const li = document.createElement('li');
+        li.textContent = `Game ${index + 1}: ${score}`;
+        scoreList.appendChild(li);
+    });
+}
+
 
 function updateScore() {
     scoreDisplay.textContent = `Score: ${score}`;
