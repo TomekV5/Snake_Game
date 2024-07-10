@@ -5,7 +5,7 @@ body {
     justify-content: center;
     height: 100vh;
     margin: 0;
-    background-image: url('minecraft-background.jpg'); /* Path to your background image */
+    background-image: url('images/minecraft-background.jpg'); /* Path to your background image */
     background-size: cover; /* Adjust to cover the entire viewport */
     background-position: center; /* Center the background image */
     font-family: Arial, sans-serif;
@@ -27,14 +27,16 @@ button {
     padding: 10px 20px;
     font-size: 16px;
     cursor: pointer;
+    background-color: #0f0;
+    border: aqua 2px solid;
 }
 
 .game-board {
     position: relative;
     width: 400px;
     height: 400px;
-    background-color: #0f0;
-    border: 2px solid #000;
+    background-color: rgba(0, 0, 0,0.3);
+    border: aqua 4px solid;
 }
 
 .snake {
@@ -57,12 +59,16 @@ button {
     border: 1px solid #ccc;
     background-color: #f9f9f9;
     width: 400px;
-    max-height: 200px;
+    max-height: 400px;
     overflow-y: auto;
+    position: fixed;
+    top: 30%;
+    right: 5%;
 }
 
 .scoreboard h2 {
     margin-bottom: 10px;
+    
 }
 
 .scoreboard ul {

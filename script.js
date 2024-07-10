@@ -10,7 +10,7 @@ let direction = { x: 1, y: 0 };
 let food = { x: tileSize * 5, y: tileSize * 5 };
 let gameInterval;
 let score = 0;
-const foodImage = '123431.png'; // Path to the food image
+const foodImage = 'images/123431.png'; // Path to the food image
 
 document.addEventListener('keydown', changeDirection);
 startButton.addEventListener('click', startGame);
@@ -82,14 +82,16 @@ function drawElement(element, className) {
 function changeDirection(event) {
     const key = event.key;
 
-    if (key === 'ArrowUp' && direction.y === 0) {
+    if ((key === 'ArrowUp' || key === 'w') && direction.y === 0) {
         direction = { x: 0, y: -1 };
-    } else if (key === 'ArrowDown' && direction.y === 0) {
+    } else if ((key === 'ArrowDown' || key === 's') && direction.y === 0) {
         direction = { x: 0, y: 1 };
-    } else if (key === 'ArrowLeft' && direction.x === 0) {
+    } else if ((key === 'ArrowLeft' || key === 'a') && direction.x === 0) {
         direction = { x: -1, y: 0 };
-    } else if (key === 'ArrowRight' && direction.x === 0) {
+    } else if ((key === 'ArrowRight' || key === 'd') && direction.x === 0) {
         direction = { x: 1, y: 0 };
+    } else if (key === 'Escape') {
+        resetGame();
     }
 }
 
@@ -103,26 +105,40 @@ function endGame() {
     startButton.textContent = "Game Over";
     startButton.disabled = false;
 
-    // Add current score to scores array
-    scores.unshift(score);
+    // Add current score and timestamp to scores array
+    const timestamp = new Date().toLocaleString();
+    scores.unshift({ score: score, timestamp: timestamp });
     if (scores.length > maxScores) {
         scores.pop(); // Remove oldest score if array exceeds maxScores
     }
 
     updateScoreboard();
 }
+
 function updateScoreboard() {
     const scoreList = document.getElementById('scoreList');
     scoreList.innerHTML = ''; // Clear existing scores
 
-    scores.forEach((score, index) => {
+    scores.forEach(({ score, timestamp }) => {
         const li = document.createElement('li');
-        li.textContent = `Game ${index + 1}: ${score}`;
+        li.textContent = `Score: ${score} | Time: ${timestamp}`;
         scoreList.appendChild(li);
     });
 }
 
-
 function updateScore() {
     scoreDisplay.textContent = `Score: ${score}`;
+}
+function resetGame() {
+    clearInterval(gameInterval);
+    startButton.textContent = "Start Game";
+    startButton.disabled = false;
+    snake = [{ x: tileSize * 2, y: 0 }];
+    direction = { x: 1, y: 0 };
+    placeFood();
+    score = 0;
+    updateScore();
+    board.innerHTML = '';
+    drawElement(food, 'food');
+    snake.forEach(segment => drawElement(segment, 'snake'));
 }
