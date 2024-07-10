@@ -1,8 +1,10 @@
 const board = document.getElementById('gameBoard');
 const startButton = document.getElementById('startButton');
+const musicButton = document.getElementById('musicButton');
 const scoreDisplay = document.getElementById('score');
 const boardSize = 400;
 const tileSize = 20;
+const backgroundMusic = document.getElementById('backgroundMusic');
 let scores = [];
 const maxScores = 10; // Maximum number of scores to display
 let snake = [{ x: tileSize * 2, y: 0 }];
@@ -10,10 +12,12 @@ let direction = { x: 1, y: 0 };
 let food = { x: tileSize * 5, y: tileSize * 5 };
 let gameInterval;
 let score = 0;
+//const backgroundMusic = document.getElementById('backgroundMusic');
 const foodImage = 'images/123431.png'; // Path to the food image
-
+let isMusicPlaying = true;
 document.addEventListener('keydown', changeDirection);
 startButton.addEventListener('click', startGame);
+musicButton.addEventListener('click', toggleMusic);
 
 function startGame() {
     startButton.textContent = "Playing...";
@@ -141,4 +145,14 @@ function resetGame() {
     board.innerHTML = '';
     drawElement(food, 'food');
     snake.forEach(segment => drawElement(segment, 'snake'));
+}
+function toggleMusic() {
+    if (isMusicPlaying) {
+        backgroundMusic.pause();
+        musicButton.textContent = "Turn Music On";
+    } else {
+        backgroundMusic.play();
+        musicButton.textContent = "Turn Music Off";
+    }
+    isMusicPlaying = !isMusicPlaying;
 }
